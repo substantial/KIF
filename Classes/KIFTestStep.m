@@ -815,9 +815,8 @@ typedef CGPoint KIFDisplacement;
   NSString *description = [NSString stringWithFormat:@"Select the \"%@\" photo library", libraryName];
   [steps addObject:[KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
 
-    NSString *labelPrefix = [NSString stringWithFormat:@"%@,   (", libraryName];
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
-      return [element.accessibilityLabel hasPrefix:labelPrefix];
+      return [element.accessibilityLabel isEqualToString:libraryName];
     }];
 
     KIFTestWaitCondition(element, error, @"Failed to find photo library with name %@", libraryName);
