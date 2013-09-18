@@ -816,11 +816,8 @@ typedef CGPoint KIFDisplacement;
   [steps addObject:[KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
  
     NSString *ios6LabelPrefix = [NSString stringWithFormat:@"%@,   (", libraryName];
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
-     return [element.accessibilityLabel hasPrefix:ios6LabelPrefix] || [element.accessibilityLabel isEqualToString:libraryName];
-    }];
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
-      return [element.accessibilityLabel isEqualToString:libraryName];
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
+        return [element.accessibilityLabel hasPrefix:ios6LabelPrefix] || [element.accessibilityLabel isEqualToString:libraryName];
     }];
 
     KIFTestWaitCondition(element, error, @"Failed to find photo library with name %@", libraryName);
