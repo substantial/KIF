@@ -814,7 +814,11 @@ typedef CGPoint KIFDisplacement;
   // This is basically the same as the step to tap with an accessibility label except that the accessibility labels for the albums have the number of photos appended to the end, such as "Saved Photos (3)." This means that we have to do a prefix match rather than an exact match.
   NSString *description = [NSString stringWithFormat:@"Select the \"%@\" photo library", libraryName];
   [steps addObject:[KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-
+ 
+    NSString *ios6LabelPrefix = [NSString stringWithFormat:@"%@,   (", libraryName];
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+     return [element.accessibilityLabel hasPrefix:ios6LabelPrefix] || [element.accessibilityLabel isEqualToString:libraryName];
+    }];
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
       return [element.accessibilityLabel isEqualToString:libraryName];
     }];
